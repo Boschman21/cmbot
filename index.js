@@ -1,5 +1,5 @@
-const Discord = require ('discord.js');
-const client = new Discord.Client();
+const { Client, MessageEmbed } = require('discord.js');
+const client = new Client();
 const {
 	prefix,
 	bot_info,
@@ -39,14 +39,45 @@ client.on('message', message => {
 	else if(message.content === 'Moin') {
 		message.channel.send('Meister');
 	}
+	else if(message.content === 'moin') {
+		message.channel.send('Meister');
+	}
 	else if(message.content === `${prefix}help`) {
-		message.channel.send('**Commands:**\n```"!help"        Zeige alle Commands\n"!invite"      Lade andere User ein\n"!avatar"      Rufe dein Profilbild ab\n"!id"          Rufe deine Discord-ID ab```');
+		const helpmenu = new MessageEmbed()
+			.setColor('#f36618')
+			.setTitle('Lachsbot')
+			.setURL('https://discord.gg/EHTy2vc')
+			.setDescription('Hier eine Liste aller Commands:')
+			.setThumbnail('https://i.imgur.com/iaIWEpJ.jpg')
+			.addFields(
+				{ name: '!help', value: 'Hilfemenü' },
+				{ name: '!invite', value: 'Lade andere User ein' },
+				{ name: '!avatar', value: 'Rufe dein PB ab' },
+				{ name: '!me', value: 'Zeige dein Profil an' },
+				{ name: '\u200b', value: '\u200b' },
+			)
+			.setTimestamp()
+			.setFooter(`Lachsbot by Boschman21 | Ben \nAufgerufen von ${message.author.username} `);
+
+		message.channel.send(helpmenu);
 	}
 	else if(message.content === `${prefix}avatar`) {
-		message.channel.send(message.author.displayAvatarURL());
+		const avatar = new MessageEmbed()
+			.setTitle(`Profilbild von ${message.author.username}`)
+			.setImage('https://cdn.discordapp.com/avatars/' + message.author.id + '/' + message.author.avatar + '.png ')
+			.setTimestamp()
+			.setFooter(`Aufgerufen von ${message.author.username}`);
+		message.channel.send(avatar);
 	}
-	else if(message.content === `${prefix}id`) {
-		message.channel.send(`Benutzername: ${message.author.username}`);
-		message.channel.send(`Discord-ID: ${message.author.id}`);
+	else if(message.content === `${prefix}me`) {
+		const id = new MessageEmbed()
+			.setTitle('Profil')
+			.setThumbnail('https://cdn.discordapp.com/avatars/' + message.author.id + '/' + message.author.avatar + '.png ')
+			.setColor('#f36618')
+			.addField('\u200b', '\u200b')
+			.setDescription(`Benutzername: **${message.author.username}**\nDiscord-ID: **${message.author.id}**\n\u200b\nMitglied seit ${message.member.joinedAt}`)
+			.setTimestamp()
+			.setFooter(`Aufgerufen von ${message.author.username}`);
+		message.channel.send(id);
 	}
 });
