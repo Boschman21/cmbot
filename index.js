@@ -51,6 +51,7 @@ client.on('message', message => {
 			.setThumbnail('https://i.imgur.com/iaIWEpJ.jpg')
 			.addFields(
 				{ name: '!help', value: 'Hilfemenü' },
+				{ name: '!fisch', value: 'Hole den Lachsbot in deinen Channel' },
 				{ name: '!invite', value: 'Lade andere User ein' },
 				{ name: '!avatar', value: 'Rufe dein PB ab' },
 				{ name: '!me', value: 'Zeige dein Profil an' },
@@ -79,5 +80,16 @@ client.on('message', message => {
 			.setTimestamp()
 			.setFooter(`Aufgerufen von ${message.author.username}`);
 		message.channel.send(id);
+	}
+});
+client.on('message', async message => {
+	if (!message.guild) return;
+	if (message.content === `${prefix}fisch`) {
+		if (message.member.voice.channel) {
+			message.member.voice.channel.join();
+		}
+		else {
+			message.reply('Joine erst einem Channel');
+		}
 	}
 });
